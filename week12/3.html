@@ -1,0 +1,29 @@
+<script>
+  let handlers = new  Map();
+  let usedReactivities= [];
+  function effect(handler) {
+    handlers
+  }
+  let object = {
+    a: 1,
+    b: 2
+  }
+  let ro = reactive(object);
+
+  effect(() => {
+    console.log(ro.a);
+  })
+  function reactive(object) {
+    return new Proxy(object, {
+      get(obj, prop) {
+        return obj[prop];
+      },
+      set(obj, pro, val) {
+        for(let handler of handlers) {
+          handler();
+        }
+        return obj[prop] = val;
+      }
+    });
+  }
+</script>
