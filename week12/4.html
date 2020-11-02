@@ -1,0 +1,57 @@
+<script>
+ // 给 reactive 和 effect 之间建立连接
+ // 在js中，没有办法获取一个函数能访问的所有变量
+ // 可以通过调用函数，获得函数实际使用的变量
+  let callbacks = new Map();
+
+  // 使用全局变量
+  let  usedReactivities = [];
+
+  let object = {
+    a: 1,
+    b: 2
+  }
+  let ro = reactive(object);
+
+  effect(() => {
+    console.log(ro.a, 'effect');
+  })
+
+  // effect 接收一个回调函数作为参数
+  function effect(callback){
+    // callbacks.push(callback);
+     // 在 get 注册进 usedReactivities
+     usedReactivities = [];
+     callback();
+     console.log(usedReactivities);
+     for (const reactivity of usedReactivities) {
+        if(!callbacks.has(reactivity[0])) {
+          callbacks.set(eactivity[0], new Map());
+        }
+        if(!callbacks.get(reactivity[0]).has(reactivity[1])) {
+          callbacks.get(reactivity[0]).set(reactivity[1], []);
+        }
+        callbacks.get(reactivity[0]).get(reactivity[1]).push(callback);
+     }
+  };
+
+  function reactive(object) {
+    return new Proxy(object, {
+      // 可以在 get 获取监听效果
+      get(obj, prop) {
+        usedReactivities.push([obj, prop])
+        return obj[prop];
+      },
+      set(obj, prop, val) {
+        if(callbacks.get(obj)) {
+          if(callbacks.get(obj).get(prop)) {
+            for(let callback of callbacks.get(obj).get(prop)) {
+              callback();
+            }
+          }
+        }
+        return obj[prop] = val;
+      }
+    });
+  }
+</script>

@@ -11,3 +11,11 @@ const p = new Proxy(target, handler)
 ```
 ## 模仿 Vue 的 Reactive 实现原理
 // TODO Vue3.0的Reactive具体使用方法
+在 Vue3.0 的 Reactivity APIs中，reactive 的基础使用方法：
+```
+const obj = reactive({ count: 0 });
+```
+而 reactive 接收一个原始对象作为参数，返回一个 Proxy 包裹的对象。
+```
+function reactive<T extends object>(target: T): UnwrapNestedRefs<T>
+```

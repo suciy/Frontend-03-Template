@@ -1,9 +1,10 @@
 <script>
-  let handlers = new  Map();
-  let usedReactivities= [];
-  function effect(handler) {
-    handlers
-  }
+  // 如何实现监听属性改变，在赋值后，改变原生对象
+  // 使用 effect api 来实现监听属性改变
+
+  // 使用一个全局变量存储回调函数
+  let callbacks = [];
+
   let object = {
     a: 1,
     b: 2
@@ -11,16 +12,23 @@
   let ro = reactive(object);
 
   effect(() => {
-    console.log(ro.a);
+    console.log(ro.a, 'effect');
   })
+
+  // effect 接收一个回调函数作为参数
+  function effect(callback){
+    callbacks.push(callback);
+  };
+
   function reactive(object) {
     return new Proxy(object, {
       get(obj, prop) {
+        console.log(obj[prop])
         return obj[prop];
       },
-      set(obj, pro, val) {
-        for(let handler of handlers) {
-          handler();
+      set(obj, prop, val) {
+        for(let callback of callbacks) {
+          callback();
         }
         return obj[prop] = val;
       }
