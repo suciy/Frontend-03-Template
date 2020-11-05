@@ -9,7 +9,12 @@ Proxy 有两个参数：
 ```
 const p = new Proxy(target, handler)
 ```
+## Vue reactive 的用处
+  **Reactivity** 是一个半成品的双向绑定，可以负责从数据到DOM或者native输入的监听。
+
+
 ## 模仿 Vue 的 Reactive 实现原理
+
 // TODO Vue3.0的Reactive具体使用方法
 在 Vue3.0 的 Reactivity APIs中，reactive 的基础使用方法：
 ```
