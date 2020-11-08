@@ -95,3 +95,5 @@ input.getAttribute('value') // kawayi
   mode: "development"
 }
 ```
+
+requestAnimationFrame是目前最好的方式，因为它是由系统决定动画回调函数执行的时机，而setTimeout、setInterval是被放入到异步队列中，它执行时机会受到主线程的影响，主线程执行完成后才会取执行异步队列，如果主线程执行执行时间超过一帧则会出现掉帧卡顿效果。
