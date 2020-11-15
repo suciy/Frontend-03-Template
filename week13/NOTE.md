@@ -63,7 +63,7 @@ input.getAttribute('value') // kawayi
 2、mount 组件 DOM 挂载
 3、render/update 在遇见变更时，更新和渲染（比如用户输入、组件使用者通过js更新）
 4、unmount组件DOM销毁
-4、组件销毁
+5、组件销毁
 
 ## Children
 * Children 型 Children 与 Template 型 Children
@@ -94,6 +94,6 @@ input.getAttribute('value') // kawayi
   },
   mode: "development"
 }
-```
+  ```
 
 requestAnimationFrame是目前最好的方式，因为它是由系统决定动画回调函数执行的时机，而setTimeout、setInterval是被放入到异步队列中，它执行时机会受到主线程的影响，主线程执行完成后才会取执行异步队列，如果主线程执行执行时间超过一帧则会出现掉帧卡顿效果。
